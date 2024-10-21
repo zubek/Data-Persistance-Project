@@ -9,12 +9,14 @@ public class MainManager : MonoBehaviour
 {
     public Brick BrickPrefab;
     public int LineCount = 6;
-    public Rigidbody Ball;
+    //public Rigidbody Ball;
 
     public int HighScore;
 
     private Text ScoreText;
     private GameObject GameOverText;
+    private GameObject HighScoreText;
+    private Rigidbody Ball;
     
     private bool m_Started = false;
     private int m_Points;
@@ -32,20 +34,13 @@ public class MainManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);        
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        if(SceneManager.GetActiveScene().name == "main") 
-        {
-            ScoreText = GameObject.Find("ScoreText").GetComponent<Text>();
-            GameOverText = GameObject.Find("GameoverText");
-            GameOverText.SetActive(false);
-            Debug.Log(GameOverText);
-            StartGame();
-        }        
+        
     }
 
     private void Update()
@@ -67,13 +62,34 @@ public class MainManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                m_GameOver = false;
+                m_Started = false;
+                m_Points = 0;
+                SceneManager.LoadScene(0);
             }
         }
     }
 
     public void StartGame() 
     {
+        ScoreText = GameObject.Find("ScoreText").GetComponent<Text>();
+        GameOverText = GameObject.Find("GameoverText");
+        HighScoreText = GameObject.Find("HighScoreText");
+        Ball = GameObject.Find("Ball").GetComponent<Rigidbody>();
+        GameOverText.SetActive(false);
+
+        LoadHighScore();
+
+        if (HighScore == 0)
+        {
+            HighScoreText.SetActive(false);
+        }
+        else
+        {
+            Text h_text = HighScoreText.GetComponent<Text>();
+            h_text.text = "HighScore: " + HighScore;
+            HighScoreText.SetActive(true);
+        }
 
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
@@ -89,6 +105,25 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+    }
+
+    public void MenuGame() 
+    {
+
+        HighScoreText = GameObject.Find("HighScoreText");
+
+        LoadHighScore();
+
+        if (HighScore == 0)
+        {
+            HighScoreText.SetActive(false);
+        }
+        else
+        {
+            Text h_text = HighScoreText.GetComponent<Text>();
+            h_text.text = "HighScore: " + HighScore;
+            HighScoreText.SetActive(true);
+        }
 
     }
 
@@ -102,6 +137,8 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        HighScore = m_Points;
+        SaveHighScore();
     }
 
     [System.Serializable]
@@ -129,5 +166,10 @@ public class MainManager : MonoBehaviour
 
             HighScore = data.HighScore;
         }
+        else
+        {
+            HighScore = 0;
+        }
     }
+
 }
