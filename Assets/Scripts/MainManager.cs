@@ -12,6 +12,7 @@ public class MainManager : MonoBehaviour
 
     public Text ScoreText;
     public GameObject GameOverText;
+    public GameObject highScoreTextObject;
 
     public Button backToMenu;
     
@@ -28,7 +29,17 @@ public class MainManager : MonoBehaviour
         int perLine = Mathf.FloorToInt(4.0f / step);
 
         backToMenu.onClick.AddListener(LevelManager.Instance.LoadMenuScene);
-        
+
+        if (ScoreManager.Instance.highScore == 0)
+        {
+            highScoreTextObject.SetActive(false);
+        }
+        else
+        {
+            Text hs_text = highScoreTextObject.GetComponent<Text>();
+            hs_text.text = "Best Score : " + ScoreManager.Instance.highScorePlayerName + " : " + ScoreManager.Instance.highScore;
+        }
+
         int[] pointCountArray = new [] {1,1,2,2,5,5};
         for (int i = 0; i < LineCount; ++i)
         {
@@ -76,5 +87,12 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        
+        if (m_Points > ScoreManager.Instance.highScore) 
+        {
+            ScoreManager.Instance.highScore = m_Points;
+            ScoreManager.Instance.highScorePlayerName = ScoreManager.Instance.playerName;
+            ScoreManager.Instance.SaveNameAndScore();
+        }        
     }
 }

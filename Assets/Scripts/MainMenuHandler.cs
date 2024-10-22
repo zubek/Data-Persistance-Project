@@ -11,11 +11,22 @@ public class MainMenuHandler : MonoBehaviour
 
     public TMP_InputField inputNameText;
     public TMP_Text validationMessage;
+    public GameObject highScoreTextObject;
 
 
     // Start is called before the first frame update
     void Start()
     {
+
+        if(ScoreManager.Instance.playerName == null) 
+        {         
+            highScoreTextObject.SetActive(false);
+        }
+        else 
+        { 
+            Text hs_text = highScoreTextObject.GetComponent<Text>();
+            hs_text.text = "Best Score : " + ScoreManager.Instance.highScorePlayerName + " : " + ScoreManager.Instance.highScore;
+        }
 
     }
 
@@ -36,6 +47,7 @@ public class MainMenuHandler : MonoBehaviour
 
     public void StartGame() 
     {
+        
         string playerName = inputNameText.text;
 
         if (playerName == "")
@@ -46,6 +58,7 @@ public class MainMenuHandler : MonoBehaviour
         else
         {
             LevelManager.Instance.isPlayerNameValidate = true;
+            ScoreManager.Instance.playerName = playerName;
             LevelManager.Instance.LoadMainScene();
         }
     }

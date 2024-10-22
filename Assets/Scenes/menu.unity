@@ -286,6 +286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1341ceecf931994ebfcd6aedc0e95cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayerNameValidate: 0
 --- !u!4 &395644922
 Transform:
   m_ObjectHideFlags: 0
@@ -329,6 +330,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fe1a3d29b194dd4abfa4856c39726cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerName: 
+  highScore: 0
 --- !u!4 &451140741
 Transform:
   m_ObjectHideFlags: 0
@@ -2023,3 +2026,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputNameText: {fileID: 587201742}
   validationMessage: {fileID: 746065942}
+  highScoreTextObject: {fileID: 2078529054}
