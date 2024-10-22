@@ -30,8 +30,7 @@ public class ScoreManager : MonoBehaviour
 
     [System.Serializable]
     class SaveData 
-    {
-        public string playerName;
+    {        
         public int highScore;
         public string highScorePlaerName;
     }
