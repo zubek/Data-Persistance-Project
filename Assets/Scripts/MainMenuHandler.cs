@@ -12,16 +12,11 @@ public class MainMenuHandler : MonoBehaviour
     public TMP_InputField inputNameText;
     public TMP_Text validationMessage;
 
+
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(inputNameText);
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void TextInputValidation() 
@@ -30,25 +25,29 @@ public class MainMenuHandler : MonoBehaviour
         if (playerName == "")
         {
             validationMessage.gameObject.SetActive(true);
+            LevelManager.Instance.isPlayerNameValidate = false;
         }
         else
         {
             validationMessage.gameObject.SetActive(false);
+            LevelManager.Instance.isPlayerNameValidate = true;
         }
     }
 
-    public void DebugInput() 
+    public void StartGame() 
     {
         string playerName = inputNameText.text;
-        
-        if(playerName == "") 
+
+        if (playerName == "")
         {
             validationMessage.gameObject.SetActive(true);
-            Debug.Log("Required enter name");
+            LevelManager.Instance.isPlayerNameValidate = false;
         }
-        else 
-        { 
-            Debug.Log(inputNameText.text);        
+        else
+        {
+            LevelManager.Instance.isPlayerNameValidate = true;
+            LevelManager.Instance.LoadMainScene();
         }
     }
+
 }
